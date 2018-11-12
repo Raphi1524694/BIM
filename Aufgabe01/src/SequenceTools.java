@@ -4,7 +4,7 @@ import java.util.List;
 
 public class SequenceTools {
 
-    private static final String filePath = "/Users/rlubaschewski/Desktop/uni/BIM/assets/fasta/NR1H4-BIM-Uebung.fasta";
+    private static final String filePathToFastaFolder = "/Users/rlubaschewski/Desktop/uni/BIM/Aufgabe01/assets/fasta";
 
     public static String getMatureMRNA(String sequence, String[] exons, boolean keepFirstIntron) {
         String matureMRNA = "";
@@ -65,7 +65,7 @@ public class SequenceTools {
     }
 
     public static void main(String[] args) {
-        List<String> fasta = FastaUtilizer.getArrayFromFasta(filePath);
+        List<String> fasta = FastaUtilizer.getArrayFromFasta(filePathToFastaFolder + "/NR1H4-BIM-UEBUNG.fasta");
         String sequence = fasta.get(0);
         String[] exons = new String[fasta.size() - 1];
         for (int i = 1; i < fasta.size(); i++) {
@@ -74,16 +74,16 @@ public class SequenceTools {
         String matureMRNA = getMatureMRNA(sequence, exons, false);
         String[] commentsRNA = {"mature mRNA of NR1H4"};
         String[] contentsRNA = {matureMRNA};
-        FastaUtilizer.writeFastaFile("/Users/rlubaschewski/Desktop/uni/BIM/assets/fasta/NR1H4-reife-mRNA.fasta", commentsRNA, contentsRNA);
+        FastaUtilizer.writeFastaFile(filePathToFastaFolder + "/NR1H4-reife-mRNA.fasta", commentsRNA, contentsRNA);
         String protein = mRNAtoProtein(matureMRNA, true);
         String[] commentsProtein = {"Primary Protein Sequence of NR1H4"};
         String[] contentsProtein = {protein};
-        FastaUtilizer.writeFastaFile("/Users/rlubaschewski/Desktop/uni/BIM/assets/fasta/NR1H4-Protein.fasta", commentsProtein, contentsProtein);
+        FastaUtilizer.writeFastaFile(filePathToFastaFolder + "/NR1H4-Protein.fasta", commentsProtein, contentsProtein);
         String mRNAWithFirstIntron = getMatureMRNA(sequence, exons, true);
         String proteinWithFirstIntron = mRNAtoProtein(mRNAWithFirstIntron, false);
         String[] commentsRNAWithIntron = {"Protein with first Intron kept"};
         String[] contentsRNAWithIntron = {proteinWithFirstIntron};
-        FastaUtilizer.writeFastaFile("/Users/rlubaschewski/Desktop/uni/BIM/assets/fasta/NR1H4-Protein-Variante.fasta", commentsRNAWithIntron, contentsRNAWithIntron);
+        FastaUtilizer.writeFastaFile(filePathToFastaFolder + "/NR1H4-Protein-Variante.fasta", commentsRNAWithIntron, contentsRNAWithIntron);
     }
 
 }
