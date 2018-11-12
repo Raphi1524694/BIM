@@ -4,8 +4,6 @@ import java.util.List;
 
 public class SequenceTools {
 
-    private static final String filePathToFastaFolder = "/Users/rlubaschewski/Desktop/uni/BIM/Aufgabe01/assets/fasta";
-
     public static String getMatureMRNA(String sequence, String[] exons, boolean keepFirstIntron) {
         String matureMRNA = "";
         List<String> introns = new LinkedList<>();
@@ -65,6 +63,7 @@ public class SequenceTools {
     }
 
     public static void main(String[] args) {
+        String filePathToFastaFolder = System.getProperty("user.dir") + "/assets/fasta";
         List<String> fasta = FastaUtilizer.getArrayFromFasta(filePathToFastaFolder + "/NR1H4-BIM-UEBUNG.fasta");
         String sequence = fasta.get(0);
         String[] exons = new String[fasta.size() - 1];
