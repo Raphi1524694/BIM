@@ -39,6 +39,7 @@ public class SequenceTools {
     public static String mRNAtoProtein(String mrna, boolean log) {
         String protein = "";
         String proteinStartToStop = "";
+        boolean firstStartCodonFound = false;
         int start = 0, stop = 0;
         for (int i = 0; i < mrna.length() - 2; i++) {
             protein += CodonTranslater.codon2aa(mrna.substring(i, i + 3));
@@ -48,9 +49,11 @@ public class SequenceTools {
                 proteinStartToStop = protein.substring(start, stop);
                 break;
             }
-            if (protein.charAt(i) == 'M') {
-                if (log)
+            if (protein.charAt(i) == 'M' && !firstStartCodonFound) {
+                if (log) {
+                    firstStartCodonFound = true;
                     System.out.println("The 5' untranslated region of the mRNA starts at index 0 and ends at index " + (i - 1));
+                }
                 start = i;
             } else if (protein.charAt(i) == '*') {
                 stop = i;
@@ -64,24 +67,31 @@ public class SequenceTools {
 
     public static void main(String[] args) {
         String filePathToFastaFolder = System.getProperty("user.dir") + "/assets/fasta";
-        List<String> fasta = FastaUtilizer.getArrayFromFasta(filePathToFastaFolder + "/NR1H4-BIM-UEBUNG.fasta");
+        // extract information from original fasta file
+        List<String> fasta = FastaUtilizer.getListFromFasta(filePathToFastaFolder + "/NR1H4-BIM-UEBUNG.fasta");
         String sequence = fasta.get(0);
         String[] exons = new String[fasta.size() - 1];
         for (int i = 1; i < fasta.size(); i++) {
             exons[i - 1] = fasta.get(i);
         }
+        // transcribe to mature mRNA
         String matureMRNA = getMatureMRNA(sequence, exons, false);
         String[] commentsRNA = {"mature mRNA of NR1H4"};
         String[] contentsRNA = {matureMRNA};
+        // create new file and write generated mRNA
         FastaUtilizer.writeFastaFile(filePathToFastaFolder + "/NR1H4-reife-mRNA.fasta", commentsRNA, contentsRNA);
+        // translate to protein (primary structure)
         String protein = mRNAtoProtein(matureMRNA, true);
         String[] commentsProtein = {"Primary Protein Sequence of NR1H4"};
         String[] contentsProtein = {protein};
+        // create new file and write amino acid sequence
         FastaUtilizer.writeFastaFile(filePathToFastaFolder + "/NR1H4-Protein.fasta", commentsProtein, contentsProtein);
+        // mRNA with first intron kept
         String mRNAWithFirstIntron = getMatureMRNA(sequence, exons, true);
         String proteinWithFirstIntron = mRNAtoProtein(mRNAWithFirstIntron, false);
         String[] commentsRNAWithIntron = {"Protein with first Intron kept"};
         String[] contentsRNAWithIntron = {proteinWithFirstIntron};
+        // write protein with first intron kept in new fasta file
         FastaUtilizer.writeFastaFile(filePathToFastaFolder + "/NR1H4-Protein-Variante.fasta", commentsRNAWithIntron, contentsRNAWithIntron);
     }
 

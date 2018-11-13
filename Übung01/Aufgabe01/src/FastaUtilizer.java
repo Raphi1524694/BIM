@@ -4,7 +4,7 @@ import java.util.List;
 
 public class FastaUtilizer {
 
-    public static List<String> getArrayFromFasta(String path) {
+    public static List<String> getListFromFasta(String path) {
         List<String> fasta = new LinkedList<>();
         String fastaBlock = "";
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
