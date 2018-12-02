@@ -7,11 +7,7 @@ public class DynamicPro  {
         this.matrix = new String[seq1.length() + 1][seq2.length() + 1];
         // fill in first sequence
         for (int i = 0; i < this.matrix[0].length; i++) {
-            if (i == 0) {
-                this.matrix[0][i] = "";
-            } else {
-                this.matrix[0][i] = "" + seq1.charAt(i - 1);
-            }
+            this.matrix[0][i] = i == 0 ? "" : "" + seq1.charAt(i - 1);
         }
         // fil in second sequence
         for (int i = 1; i < this.matrix.length; i++) {
