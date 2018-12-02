@@ -1,4 +1,3 @@
-import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,17 +22,25 @@ public class SequenceTools {
         }
         StringBuilder builder = new StringBuilder(matureMRNA);
         for (int i = 0; i < builder.length(); i++) {
-            if (builder.charAt(i) == 'A') {
+            if (matureMRNA.charAt(i) == 'T') {
                 builder.setCharAt(i, 'U');
-            } else if (builder.charAt(i) == 'T') {
-                builder.setCharAt(i, 'A');
-            } else if (builder.charAt(i) == 'C') {
-                builder.setCharAt(i, 'G');
-            } else if (builder.charAt(i) == 'G') {
-                builder.setCharAt(i, 'C');
             }
         }
         return builder.toString();
+    }
+
+    String getCorrectProtein(String mRNA) {
+        int index = mRNA.indexOf("AUG");
+        System.out.println("Start Codon found at " + index);
+        String protein = "";
+        for (int index; index < mRNA.length(); index += 3) {
+            if (i > mRNA.length()) {
+                break;
+            }
+            String codon = mRNA.substring(index, index + 3);
+            protein += CodonTranslater.codon2aa(codon);
+        }
+        return protein;
     }
 
     public static String mRNAtoProtein(String mrna, boolean log) {
@@ -42,7 +49,11 @@ public class SequenceTools {
         boolean firstStartCodonFound = false;
         int start = 0, stop = 0;
         for (int i = 0; i < mrna.length() - 2; i++) {
-            protein += CodonTranslater.codon2aa(mrna.substring(i, i + 3));
+            String codon = mrna.substring(i, i + 3);
+            if (codon == "AUG") {
+                System.out.println(i);
+            }
+            protein += CodonTranslater.codon2aa(codon);
         }
         for (int i = 0; i < protein.length(); i++) {
             if (start > 0 && stop > 0 && stop > start) {
