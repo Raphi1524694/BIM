@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="src">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Aufgabe02/DynamicPro/BIM-dplib/lib/scabio-dp-1.0.0-jar-with-dependencies.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/Aufgabe02/DynamicPro/BIM-dplib-1.0.0 (1).zip!/BIM-dplib/src" />
+    </SOURCES>
+  </library>
+</component>
